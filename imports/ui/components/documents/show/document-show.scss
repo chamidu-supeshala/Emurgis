@@ -1,4 +1,20 @@
 /* Document - Show
 -------------------------------------------------- */
 
-.document-show {}
+.problem-action-buttons {
+  .btn {
+    min-width: 100px;   // in order to make buttons to render in same size, if possible
+    margin-bottom: 4px; // avoid vertical button merge in small screens
+  }
+}
+
+.take-action {
+  .btn-wrap {
+    background: #aaaaaa;
+    color: white;
+    min-width: 200px;
+    margin: 0 0 4px 0;
+    -webkit-clip-path: url(#clipper);
+    clip-path: url(#clipper);
+  }
+}

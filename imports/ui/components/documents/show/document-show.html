@@ -4,31 +4,16 @@
     <div class="card">
       <div class="card-body">
         {{#if Template.subscriptionsReady}}
-          <div class="float-right">
-            {{{claimButton problem}}}
-            {{{watchButton problem}}}
-            {{#if problem.claimed}}
-              {{#if hasClaimedProblem problem.claimedBy}}
-                {{{ markAsResolved problem }}}
-              {{/if}}
-            {{/if}}
-            {{#if isProblemOwner problem.createdBy}}
-            <a class="btn btn-sm btn-secondary" href="{{pathFor 'documentEdit' documentId=problem._id}}" role="button">Edit</a>
-        		<a class="btn btn-sm btn-danger js-delete-document" href="#" role="button">Delete</a>
-            {{{statusButton problem}}}
-            {{/if}}
-          </div>
+          <span>
+            <h3 style="display: inline-block">{{problem.summary}}</h3>
+            <span class="mt-1 ml-4" style="display: inline-block; vertical-align: top;">
+              {{{statusText problem.status}}}
+            </span>
+          </span>
+          <p class="card-text">{{problem.description}}</p>
 
-          <h3>{{problem.summary}}</h3>
-          <div class="card-subtitle">
-            {{{statusText problem.status}}}
-          </div>
-          <br/>
-          <h5 class="card-subtitle">Problem</h5>
-          <p class="card-text font-weight-normal">{{problem.description}}</p>
-          <br/>
-          <h5 class="card-subtitle">Solution</h5>
-          <p class="card-text font-weight-normal">{{problem.solution}}</p>
+          <h6 class="card-subtitle text-muted">Solution:</h6>
+          <p class="card-text">{{problem.solution}}</p>
           <hr>
           <p class="text-muted" style="margin:0">
             <strong>{{getNameById problem.createdBy}}</strong> created this {{showTimeAgoTimestamp problem.createdAt}} <br/>
@@ -43,6 +28,13 @@
             Resolved by <strong>{{resolvedByUser problem}}</strong> {{showTimeAgoTimestamp problem.resolvedDateTime}} <br>
           {{/if}}
           </p>
+          <a href="{{pathFor 'documentsIndex'}}" class="btn btn-link">Back</a>
+          <div class="problem-action-buttons float-right">
+            {{#if isProblemOwner problem.createdBy}}
+            <a class="btn btn-sm btn-secondary" href="{{pathFor 'documentEdit' documentId=problem._id}}" role="button">Edit</a>
+            <a class="btn btn-sm btn-danger js-delete-document" href="#" role="button">Delete</a>
+            {{/if}}
+          </div>
         {{else}}
           {{> loader}}
         {{/if}}
@@ -63,7 +55,7 @@
   {{> documentComments comment=comment}}
 {{/each}}
 
-      <div class="document-show pb-4">
+    <div class="document-show">
         <div class="card">
             <div class="card-body">
                 <div class="form-group">
@@ -73,5 +65,38 @@
                 <button type="submit" class="btn btn-primary mb-2 documentCommentBtn">Comment</button>
             </div>
         </div>
+    </div>
+    
+    <div class="take-action my-2">
+      <div class="card">
+          <div class="card-body">
+            <svg width="0" height="0">
+              <defs>
+                <clipPath id="clipper" clipPathUnits="objectBoundingBox">
+                  <path d="M0,0 0.79,0 0.83,0.5 0.79,1 0.81,1 0.85,0.5 0.81,0 0.86,0 0.9,0.5 0.86,1 0.88,1 0.92,0.5 0.88,0 0.93,0 0.97,0.5 0.93,1 0,1z" />
+                </clipPath>
+              </defs>
+            </svg>
+            <p class="btn-wrap pl-4 pt-1 pb-1 float-left">
+              Take an action
+            </p>
+            {{#if Template.subscriptionsReady}}
+            <span class="problem-action-buttons float-left">
+              {{{claimButton problem}}}
+              {{{watchButton problem}}}
+            </span>
+            <span class="problem-action-buttons float-right">
+              {{#if problem.claimed}}
+                {{#if hasClaimedProblem problem.claimedBy}}
+                  {{{ markAsResolved problem }}}
+                {{/if}}
+              {{/if}}
+              {{{statusButton problem}}}
+            </span>
+            {{else}}
+              {{> loader}}
+            {{/if}}
+          </div>
+      </div>
     </div>
 </template>
